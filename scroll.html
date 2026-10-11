@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>画像スライダー</title>
+
+<style>
+    /* 全体の配置 */
+    .slider {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+        color:black
+    }
+
+    /* 左右のボタン */
+    .arrow {
+        flex-shrink: 0;
+        width: 55px;
+        height: 220px;
+        color: #3478f6;
+        border: 2px solid #3478f6;
+        border-radius: 8px;
+        font-size: 32px;
+        cursor: pointer;
+    }
+
+    /* 画像を表示する領域 */
+    .image-window {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        color:black
+    }
+
+    /* 画像を横並びにする部分 */
+    .image-list {
+        display: flex;
+        gap: 24px;
+        transition: transform 0.3s ease;
+        color:black
+    }
+
+    /* 画像 */
+    .image-list img {
+        flex: 0 0 280px;
+        width: 280px;
+        height: 220px;
+        object-fit: cover;
+        border: 1px solid white;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="slider">
+
+    <button class="arrow" id="prev">❮</button>
+
+    <div class="image-window">
+        <div class="image-list" id="imageList">
+            <img src="C:\Users\Ryoshiraishi\Documents\GitHub\web_kaihatsu\HIM54yPbIAEJma3.jpg" alt="画像1">
+            <img src="C:\Users\Ryoshiraishi\Documents\GitHub\web_kaihatsu\sanponojama2.png" alt="画像2">
+            <img src="C:\Users\Ryoshiraishi\Documents\GitHub\web_kaihatsu\karakara_for_wallpeper.jpg" alt="画像3">
+            <img src="image4.jpg" alt="画像4">
+            <img src="image5.jpg" alt="画像5">
+        </div>
+    </div>
+
+    <button class="arrow" id="next">❯</button>
+
+</div>
+
+<script>
+
+const imageList = document.getElementById("imageList");
+const prev = document.getElementById("prev");
+const next = document.getElementById("next");
+
+// 元の画像を保存
+const originalImages = Array.from(imageList.children);
+const imageCount = originalImages.length;
+
+// 画像がない場合は処理しない
+if (imageCount > 0) {
+    // 先頭と末尾に画像を複製する
+    originalImages.slice().reverse().forEach((img) => {
+        imageList.prepend(img.cloneNode(true));
+    });
+
+    originalImages.forEach((img) => {
+        imageList.append(img.cloneNode(true));
+    });
+
+    // 真ん中にある元の画像からスタート
+    let position = imageCount;
+
+    function getStep() {
+        const item = imageList.querySelector("img");
+        const gap = parseFloat(
+            getComputedStyle(imageList).gap
+        ) || 0;
+
+        return item.getBoundingClientRect().width + gap;
+    }
+
+    function moveSlider() {
+        imageList.style.transform =
+            `translateX(${-position * getStep()}px)`;
+    }
+
+    // 初期位置を設定（最初はアニメーションさせない）
+    imageList.style.transition = "none";
+    moveSlider();
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            imageList.style.transition = "transform 0.3s ease";
+        });
+    });
+
+    // 右ボタン
+    next.addEventListener("click", () => {
+        position++;
+        moveSlider();
+    });
+
+    // 左ボタン
+    prev.addEventListener("click", () => {
+        position--;
+        moveSlider();
+    });
+
+    // 複製画像に到達したら、元の画像へ戻す
+    imageList.addEventListener("transitionend", () => {
+        if (position >= imageCount * 2) {
+            position -= imageCount;
+
+            imageList.style.transition = "none";
+            moveSlider();
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    imageList.style.transition =
+                        "transform 0.3s ease";
+                });
+            });
+        } else if (position < imageCount) {
+            position += imageCount;
+
+            imageList.style.transition = "none";
+            moveSlider();
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    imageList.style.transition =
+                        "transform 0.3s ease";
+                });
+            });
+        }
+    });
+
+    // ウィンドウの幅が変わった場合にも位置を調整
+    window.addEventListener("resize", moveSlider);
+}
+
+</script>
+
+</body>
+</html>

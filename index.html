@@ -4,13 +4,17 @@
     <title>test_field</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./output.css">
+    <script src="script.js" defer></script>
+    <style>
+        
+    </style>
 </head>
 <body>
     <div class="flex min-h-screen">
         <!-- 左側のメニュー -->
         <aside class="w-56 bg-slate-300 text-white p-4">
-            <h2 class="text-xl font-bold mb-6">
+            <h2 class="text-xl font-medium mb-6">
              My Application
             </h2>
 
@@ -30,15 +34,42 @@
              </nav>
         </aside>
 
-  <!-- 右側のメイン画面 -->
+        <!-- 右側のメイン画面 -->
         <main class="flex-1 bg-gray-200 p-8">
-            <h1 class="text-3xl font-bold text-gray-100">
+            <h1 class="text-3xl font-medium text-gray-100 mb-3">
                 ホーム
             </h1>
+            
+            <!--　コンテンツを表示する場所 -->
+            <div class="relative flex items-center bg-slate-100 h-48 text-white rounded-lg">
+                <!-- 左ボタン配置 -->
+                <button id="left_button" class="absolute left-4 rounded-lg w-7 h-36 bg-slate-300 shrink-0">❮</button>
 
-            <p class="mt-4">
-                ここにコンテンツを表示します。
-            </p>
+                <!-- 画像置くとこ -->
+                <div  class="items-center flex gap-3 overflow-hidden mx-14 min-w-0" ID="image_holder">
+                    
+                    <!--肝心の画像-->
+                    <img class="h-36 rounded-lg object-contain" onerror="this.style.display='none'" alt="1"
+                        src="C:\Users\Ryoshiraishi\Documents\GitHub\web_kaihatsu\images\CPK_for_wall_pepar.jpg">
+
+                    <img class="h-36 rounded-lg object-contain" onerror="this.style.display='none'"  alt="1"
+                        src="C:\Users\Ryoshiraishi\Documents\GitHub\web_kaihatsu\images\HIM54yPbIAEJma3.jpg">
+
+                    <img class="h-36 rounded-lg object-contain" onerror="this.style.display='none'"  alt="1"
+                        src="C:\Users\Ryoshiraishi\Documents\GitHub\web_kaihatsu\images\karakara_for_wallpeper.jpg">
+
+                    <img class="h-36 rounded-lg object-contain" onerror="this.style.display='none'"  alt="1"
+                        src="C:\Users\Ryoshiraishi\Documents\GitHub\web_kaihatsu\images\emotional.png">
+
+                    <img class="h-36 rounded-lg object-contain" onerror="this.style.display='none'"  alt="1"
+                        src="C:\Users\Ryoshiraishi\Documents\GitHub\web_kaihatsu\images\sanponojama2.png">
+                
+                </div>
+
+                <!-- 右ボタン配置 -->
+                <button id="right_buttton" class="absolute right-4 rounded-lg w-7 h-36 bg-slate-300 shrink-0">❯</button>
+                
+            </div>
         </main>
     </div>
 </body>
